@@ -6,103 +6,87 @@
 :root{--bg:#faf8f4;--fg:#23201c;--mut:#8a8178;--line:#e2dcd2;--acc:#8c5a3c;--card:#fff;--fs:19px}
 html[data-theme=dark]{--bg:#16150f;--fg:#e6e1d8;--mut:#918a7e;--line:#302c25;--acc:#c9976b;--card:#1d1b15}
 *{box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{margin:0;background:var(--bg);color:var(--fg);
+html,body{height:100%;overscroll-behavior:none}
+body{margin:0;background:var(--bg);color:var(--fg);overflow:hidden;
 font-family:"Songti SC","SimSun","STSong","Source Han Serif SC","Noto Serif CJK SC","Microsoft YaHei",Georgia,serif;
 line-height:1.9;-webkit-text-size-adjust:100%}
-#bar{position:fixed;top:0;left:0;right:0;height:3px;background:var(--acc);width:0;z-index:60;transition:width .1s}
-header{position:sticky;top:0;z-index:50;background:rgba(250,248,244,.92);
-backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+header{position:relative;z-index:50;background:rgba(250,248,244,.92);border-bottom:1px solid var(--line)}
 html[data-theme=dark] header{background:rgba(22,21,15,.92)}
 @supports (background:color-mix(in srgb,red,transparent)){
  header{background:color-mix(in srgb,var(--bg) 92%,transparent)}
 }
-.hin{max-width:1180px;margin:0 auto;padding:10px 20px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;position:relative}
+.hin{max-width:1180px;margin:0 auto;padding:10px 20px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
 .brand{font-size:18px;font-weight:600;letter-spacing:.02em;margin-right:auto;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .brand small{display:block;font-size:11px;color:var(--mut);font-weight:400;letter-spacing:.04em}
-.grp{display:flex;border:1px solid var(--line);border-radius:8px;overflow:hidden}
-.grp button{font:inherit;font-size:13px;padding:6px 13px;background:transparent;color:var(--mut);
-border:0;cursor:pointer;border-right:1px solid var(--line);white-space:nowrap}
-.grp button:last-child{border-right:0}
-.langbtn[aria-pressed=true]{background:var(--acc);color:#fff}
-.ico{font:inherit;font-size:14px;width:32px;height:32px;border:1px solid var(--line);border-radius:8px;
+.ico{font:inherit;font-size:14px;width:34px;height:34px;border:1px solid var(--line);border-radius:8px;
 background:transparent;color:var(--mut);cursor:pointer;line-height:1;flex:none}
-.panel{position:absolute;top:100%;right:20px;margin-top:8px;background:var(--card);border:1px solid var(--line);
-border-radius:10px;padding:6px 14px;box-shadow:0 10px 30px rgba(0,0,0,.14);min-width:230px;z-index:55}
-.panel[hidden]{display:none}
-.panel-row{display:flex;align-items:center;justify-content:space-between;padding:11px 0;gap:16px}
-.panel-row+.panel-row{border-top:1px solid var(--line)}
-.panel-label{font-size:13px;color:var(--mut);white-space:nowrap}
-.wrap{max-width:1180px;margin:0 auto;padding:0 20px;display:grid;grid-template-columns:210px minmax(0,1fr);gap:44px}
-nav{position:sticky;top:74px;align-self:start;max-height:calc(100vh - 96px);overflow:auto;padding:26px 0}
-nav h3{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--mut);margin:0 0 12px}
-nav ol{list-style:none;margin:0;padding:0}
-nav a{display:flex;gap:9px;align-items:baseline;padding:6px 9px;border-radius:7px;text-decoration:none;
-color:var(--fg);font-size:14px;line-height:1.5;border-left:2px solid transparent}
-nav a:hover{background:var(--card)}
-nav a.on{border-left-color:var(--acc);color:var(--acc);background:var(--card)}
-.tn{color:var(--mut);font-size:11px;min-width:12px}
-main{padding:30px 0 100px;min-width:0}
-.title{padding:52px 0 40px;border-bottom:1px solid var(--line);margin-bottom:12px}
-.title h1{font-size:38px;line-height:1.25;margin:0 0 6px;letter-spacing:.02em}
-.title .alt{font-size:17px;color:var(--mut);font-style:italic;margin:0 0 20px}
-.title .meta{font-size:13px;color:var(--mut);line-height:1.8}
-.chapter{padding-top:52px;scroll-margin-top:74px}
-nav{scroll-margin-top:74px}
+#lang-btn{font-size:12px;font-weight:600}
+.overlay{position:fixed;inset:0;z-index:70}
+.overlay[hidden]{display:none}
+.overlay-backdrop{position:absolute;inset:0;background:rgba(0,0,0,.35)}
+.overlay-card{position:relative;max-width:420px;margin:14vh auto 0;background:var(--card);border:1px solid var(--line);
+border-radius:14px;padding:8px 20px;box-shadow:0 20px 50px rgba(0,0,0,.25);max-height:70vh;overflow:auto}
+.overlay-head{display:flex;align-items:center;justify-content:space-between;padding:14px 0;position:sticky;top:0;background:var(--card)}
+.overlay-head h3{margin:0;font-size:15px;letter-spacing:.06em;text-transform:uppercase;color:var(--mut);font-weight:600}
+.overlay-card ol{list-style:none;margin:0;padding:0 0 14px}
+.overlay-card a{display:flex;gap:10px;align-items:baseline;padding:11px 8px;border-radius:8px;text-decoration:none;
+color:var(--fg);font-size:16px;line-height:1.5;border-left:2px solid transparent}
+.overlay-card a:active{background:var(--bg)}
+.overlay-card a.on{border-left-color:var(--acc);color:var(--acc)}
+.tn{color:var(--mut);font-size:12px;min-width:14px}
+.reader{position:fixed;left:0;right:0;bottom:34px;overflow:hidden}
+.pages{height:100%;column-gap:0;column-fill:auto}
+.title{padding:8vh 20px 40px;border-bottom:1px solid var(--line);margin-bottom:12px}
+.title h1{font-size:calc(var(--fs) + 19px);line-height:1.25;margin:0 0 6px;letter-spacing:.02em}
+.title .alt{font-size:calc(var(--fs) - 2px);color:var(--mut);font-style:italic;margin:0 0 20px}
+.title .meta{font-size:calc(var(--fs) - 6px);color:var(--mut);line-height:1.8}
+.chapter{padding:8vh 20px 40vh;break-before:column}
 .chapter h2{margin:0 0 30px;padding-bottom:14px;border-bottom:1px solid var(--line)}
 .cnum{display:block;font-size:11px;letter-spacing:.16em;color:var(--acc);text-transform:uppercase;margin-bottom:6px}
-.ctitle{font-size:26px;line-height:1.35}
+.ctitle{font-size:calc(var(--fs) + 7px);line-height:1.35}
 .p{margin:0 0 var(--pgap,1.35em)}
 .p p{margin:0;font-size:var(--fs);text-align:justify;hyphens:auto}
 p.en{font-family:Georgia,"Iowan Old Style","Times New Roman",serif}
 p.zh{font-family:"Kaiti SC","STKaiti","KaiTi","977F53","Songti SC","SimSun","Noto Serif CJK SC",serif;text-indent:2em}
 html[data-lang=zh] p.en,html[data-lang=en] p.zh{display:none}
 html[data-lang=zh] .en-i,html[data-lang=en] .zh-i{display:none}
-footer{border-top:1px solid var(--line);margin-top:60px;padding:26px 0 0;font-size:12.5px;color:var(--mut);line-height:1.9}
-#top{position:fixed;right:22px;bottom:22px;width:42px;height:42px;border-radius:50%;border:1px solid var(--line);
-background:var(--card);color:var(--mut);font-size:17px;cursor:pointer;opacity:0;pointer-events:none;transition:.2s;z-index:40}
-#top.show{opacity:1;pointer-events:auto}
+footer{border-top:1px solid var(--line);margin:60px 20px 0;padding:26px 0 40vh;font-size:12.5px;color:var(--mut);
+line-height:1.9;break-before:column}
+#pageind{position:fixed;left:0;right:0;bottom:14px;text-align:center;font-size:12px;color:var(--mut);
+pointer-events:none;z-index:45}
 @media(max-width:900px){
- .wrap{grid-template-columns:1fr;gap:0;padding:0 17px}
- nav{position:static;max-height:none;padding:16px 0 0;border-bottom:1px solid var(--line)}
- nav ol{display:flex;flex-wrap:wrap;gap:5px}
- nav a{border:1px solid var(--line);border-radius:20px;padding:5px 12px;font-size:13px}
- nav a.on{border-color:var(--acc)}
- .title h1{font-size:29px} .ctitle{font-size:22px}
+ .title{padding-left:17px;padding-right:17px}
+ .chapter{padding-left:17px;padding-right:17px}
+ footer{margin-left:17px;margin-right:17px}
  .brand small{display:none}
- .ico{width:36px;height:36px}
- .panel{right:17px}
+ .brand{width:100%;margin-right:0}
+ .ico{width:38px;height:38px}
 }
-@media print{header,nav,#top,#bar{display:none} .wrap{display:block}}
+@media print{header,.overlay,#pageind{display:none}}
 </style></head>
 <body>
-<div id="bar"></div>
 <header><div class="hin">
  <div class="brand">在中国塑造品格<small>Character-Building in China</small></div>
  <button class="ico" id="toc-btn" title="目录">☰</button>
- <button class="ico" id="settings-btn" title="设置" aria-expanded="false">⚙</button>
- <div class="panel" id="settings-panel" hidden>
-  <div class="panel-row">
-   <span class="panel-label">语言<span class="en-i"> Language</span></span>
-   <div class="grp" role="group" aria-label="语言">
-    <button class="langbtn" data-lang="zh">中文</button><button class="langbtn" data-lang="en">English</button>
-   </div>
-  </div>
-  <div class="panel-row">
-   <span class="panel-label">字号<span class="en-i"> Font size</span></span>
-   <div class="grp">
-    <button id="minus" title="缩小字号">A-</button><button id="plus" title="放大字号">A+</button>
-   </div>
-  </div>
-  <div class="panel-row">
-   <span class="panel-label">深色模式<span class="en-i"> Dark mode</span></span>
-   <button class="ico" id="theme" title="深色模式">◐</button>
-  </div>
- </div>
+ <button class="ico" id="lang-btn" title="切换语言">EN</button>
+ <button class="ico" id="minus" title="缩小字号">A-</button>
+ <button class="ico" id="plus" title="放大字号">A+</button>
+ <button class="ico" id="theme" title="深色模式">◐</button>
 </div></header>
-<div class="wrap">
-<nav id="toc"><h3>目录 Contents</h3><ol><li><a href="#ch1"><span class="tn">1</span><span class="zh-i">家世与早年</span><span class="en-i">Ancestry and Early Years</span></a></li><li><a href="#ch2"><span class="tn">2</span><span class="zh-i">奔赴禾场</span><span class="en-i">Getting to the Field</span></a></li><li><a href="#ch3"><span class="tn">3</span><span class="zh-i">安家与语言学习</span><span class="en-i">Home-Making and Language Study</span></a></li><li><a href="#ch4"><span class="tn">4</span><span class="zh-i">创办学校的最初尝试</span><span class="en-i">First Steps in College-Making</span></a></li></ol></nav>
-<main>
+<div class="overlay" id="toc-overlay" hidden>
+ <div class="overlay-backdrop" id="toc-backdrop"></div>
+ <div class="overlay-card">
+  <div class="overlay-head"><h3>目录 <span class="en-i">Contents</span></h3><button class="ico" id="toc-close" title="关闭">✕</button></div>
+  <ol>
+   <li><a href="#ch1" data-ch="ch1"><span class="tn">1</span><span class="zh-i">家世与早年</span><span class="en-i">Ancestry and Early Years</span></a></li>
+   <li><a href="#ch2" data-ch="ch2"><span class="tn">2</span><span class="zh-i">奔赴禾场</span><span class="en-i">Getting to the Field</span></a></li>
+   <li><a href="#ch3" data-ch="ch3"><span class="tn">3</span><span class="zh-i">安家与语言学习</span><span class="en-i">Home-Making and Language Study</span></a></li>
+   <li><a href="#ch4" data-ch="ch4"><span class="tn">4</span><span class="zh-i">创办学校的最初尝试</span><span class="en-i">First Steps in College-Making</span></a></li>
+  </ol>
+ </div>
+</div>
+<div class="reader" id="reader">
+<div class="pages" id="pages">
 <div class="title">
  <h1>在中国塑造品格</h1>
  <p class="alt">Character-Building in China</p>
@@ -201,63 +185,130 @@ background:var(--card);color:var(--mut);font-size:17px;cursor:pointer;opacity:0;
  原著 1912 年由 Fleming H. Revell Company 出版，已进入公有领域。<br>
  中译文 © 译者保留权利。目前收录第一至第四章，全书共十三章，后续陆续更新。
 </footer>
-</main></div>
-<button id="top" title="回到顶部">↑</button>
+</div></div>
+<div id="pageind"></div>
 <script>
 var H=document.documentElement,LS=window.localStorage;
-function lang(v){
- var anchor=null,minTop=1e9;
- document.querySelectorAll('.p').forEach(function(p){
-  var r=p.getBoundingClientRect();
-  if(r.bottom>0&&r.top<minTop){minTop=r.top;anchor=p}
- });
- var before=anchor?anchor.getBoundingClientRect().top:null;
- H.dataset.lang=v;
- document.querySelectorAll('.langbtn').forEach(function(b){
-  b.setAttribute('aria-pressed',b.dataset.lang===v);});
- try{LS.setItem('cb-lang',v)}catch(e){}
- if(anchor){var after=anchor.getBoundingClientRect().top;window.scrollBy(0,after-before)}
+var reader=document.getElementById('reader'),pages=document.getElementById('pages'),
+    pageind=document.getElementById('pageind'),langBtn=document.getElementById('lang-btn');
+var curPage=0,totalPages=1,pageW=0,chapterStarts=[],fs=19;
+
+function measure(){
+ var headerH=document.querySelector('header').getBoundingClientRect().height;
+ reader.style.top=headerH+'px';
+ pageW=reader.clientWidth;
+ pages.style.columnWidth=pageW+'px';
 }
-document.querySelectorAll('.langbtn').forEach(function(b){
- b.onclick=function(){lang(b.dataset.lang)};});
-var fs=19;
-function setfs(v){fs=Math.min(26,Math.max(15,v));H.style.setProperty('--fs',fs+'px');
- try{LS.setItem('cb-fs',fs)}catch(e){}}
+function findElementAtPage(p){
+ var els=[].slice.call(document.querySelectorAll('.title,.p'));
+ for(var i=0;i<els.length;i++){
+  if(Math.floor(els[i].offsetLeft/Math.max(pageW,1))>=p)return els[i];
+ }
+ return els[els.length-1]||null;
+}
+function recomputeLayout(){
+ totalPages=Math.max(1,Math.round(pages.scrollWidth/pageW));
+ chapterStarts=[].slice.call(document.querySelectorAll('.chapter')).map(function(ch){
+  return{id:ch.id,page:Math.round(ch.offsetLeft/pageW)};
+ });
+}
+function goToPage(n,instant){
+ curPage=Math.max(0,Math.min(totalPages-1,n));
+ pages.style.transition=instant?'none':'transform .32s ease';
+ pages.style.transform='translateX(-'+(curPage*pageW)+'px)';
+ if(instant){pages.getBoundingClientRect();pages.style.transition='transform .32s ease'}
+ pageind.textContent=(curPage+1)+' / '+totalPages;
+}
+function withRepagination(mutate){
+ var anchor=pageW?findElementAtPage(curPage):null;
+ mutate();
+ measure();
+ recomputeLayout();
+ goToPage(anchor?Math.round(anchor.offsetLeft/pageW):0,true);
+}
+function paginateInit(){
+ measure();
+ recomputeLayout();
+ goToPage(0,true);
+}
+function lang(v){
+ withRepagination(function(){
+  H.dataset.lang=v;
+  langBtn.textContent=v==='zh'?'EN':'中';
+  try{LS.setItem('cb-lang',v)}catch(e){}
+ });
+}
+function setfs(v){
+ var nv=Math.min(26,Math.max(15,v));
+ withRepagination(function(){
+  fs=nv;H.style.setProperty('--fs',fs+'px');
+  try{LS.setItem('cb-fs',fs)}catch(e){}
+ });
+}
+langBtn.onclick=function(){lang(H.dataset.lang==='zh'?'en':'zh')};
 document.getElementById('plus').onclick=function(){setfs(fs+1)};
 document.getElementById('minus').onclick=function(){setfs(fs-1)};
 document.getElementById('theme').onclick=function(){
  var t=H.dataset.theme==='dark'?'light':'dark';H.dataset.theme=t;try{LS.setItem('cb-theme',t)}catch(e){}};
-var tocBtn=document.getElementById('toc-btn'),settingsBtn=document.getElementById('settings-btn'),
-    panel=document.getElementById('settings-panel');
-tocBtn.onclick=function(){
- panel.setAttribute('hidden','');settingsBtn.setAttribute('aria-expanded','false');
- document.getElementById('toc').scrollIntoView({behavior:'smooth',block:'start'})};
-settingsBtn.onclick=function(e){
- e.stopPropagation();
- var opening=panel.hasAttribute('hidden');
- if(opening){panel.removeAttribute('hidden');settingsBtn.setAttribute('aria-expanded','true')}
- else{panel.setAttribute('hidden','');settingsBtn.setAttribute('aria-expanded','false')}
-};
-document.addEventListener('click',function(e){
- if(!panel.hasAttribute('hidden')&&!panel.contains(e.target)&&e.target!==settingsBtn){
-  panel.setAttribute('hidden','');settingsBtn.setAttribute('aria-expanded','false');
- }
-});
-try{
- lang(LS.getItem('cb-lang')||'zh');
- setfs(parseInt(LS.getItem('cb-fs'),10)||19);
- H.dataset.theme=LS.getItem('cb-theme')||'light';
-}catch(e){lang('zh');H.dataset.theme='light'}
-var secs=[].slice.call(document.querySelectorAll('.chapter')),
-    links=[].slice.call(document.querySelectorAll('nav a')),
-    bar=document.getElementById('bar'),top=document.getElementById('top');
-function onScroll(){
- var y=window.scrollY,h=document.body.scrollHeight-innerHeight;
- bar.style.width=(h>0?y/h*100:0)+'%';
- top.classList.toggle('show',y>600);
- var idx=0;secs.forEach(function(s,i){if(s.getBoundingClientRect().top<130)idx=i});
- links.forEach(function(a,i){a.classList.toggle('on',i===idx)});
+
+var tocBtn=document.getElementById('toc-btn'),tocOverlay=document.getElementById('toc-overlay'),
+    tocClose=document.getElementById('toc-close'),tocBackdrop=document.getElementById('toc-backdrop');
+function openToc(){
+ var as=[].slice.call(tocOverlay.querySelectorAll('a')),current=0;
+ chapterStarts.forEach(function(c,i){if(c.page<=curPage)current=i});
+ as.forEach(function(a,i){a.classList.toggle('on',i===current)});
+ tocOverlay.removeAttribute('hidden');
 }
-addEventListener('scroll',onScroll,{passive:true});onScroll();
-top.onclick=function(){scrollTo({top:0,behavior:'smooth'})};
+function closeToc(){tocOverlay.setAttribute('hidden','')}
+tocBtn.onclick=openToc;
+tocClose.onclick=closeToc;
+tocBackdrop.onclick=closeToc;
+[].slice.call(tocOverlay.querySelectorAll('a')).forEach(function(a){
+ a.onclick=function(e){
+  e.preventDefault();
+  var id=a.getAttribute('data-ch'),entry=chapterStarts.filter(function(c){return c.id===id})[0];
+  closeToc();
+  if(entry)goToPage(entry.page);
+ };
+});
+
+var touchStartX=null,touchStartY=null,touchMoved=false,lastNavAt=0;
+function navAt(clientX){
+ var x=clientX/reader.clientWidth;
+ if(x<0.3)goToPage(curPage-1);else goToPage(curPage+1);
+}
+reader.addEventListener('touchstart',function(e){
+ var t=e.touches[0];touchStartX=t.clientX;touchStartY=t.clientY;touchMoved=false;
+},{passive:true});
+reader.addEventListener('touchmove',function(){touchMoved=true},{passive:true});
+reader.addEventListener('touchend',function(e){
+ if(touchStartX===null)return;
+ var t=e.changedTouches[0],dx=t.clientX-touchStartX,dy=t.clientY-touchStartY;
+ if(Math.abs(dx)>40&&Math.abs(dx)>Math.abs(dy)){
+  if(dx<0)goToPage(curPage+1);else goToPage(curPage-1);
+ }else if(!touchMoved||(Math.abs(dx)<10&&Math.abs(dy)<10)){
+  navAt(t.clientX);
+ }
+ lastNavAt=Date.now();touchStartX=null;
+});
+reader.addEventListener('click',function(e){
+ if(Date.now()-lastNavAt<600)return;
+ navAt(e.clientX);
+});
+
+var resizeTimer;
+addEventListener('resize',function(){
+ clearTimeout(resizeTimer);
+ resizeTimer=setTimeout(function(){withRepagination(function(){})},150);
+});
+
+try{
+ fs=parseInt(LS.getItem('cb-fs'),10)||19;
+ H.style.setProperty('--fs',fs+'px');
+ H.dataset.theme=LS.getItem('cb-theme')||'light';
+ var initialLang=LS.getItem('cb-lang')||'zh';
+ H.dataset.lang=initialLang;
+ langBtn.textContent=initialLang==='zh'?'EN':'中';
+}catch(e){H.dataset.lang='zh';H.dataset.theme='light';langBtn.textContent='EN'}
+paginateInit();
 </script></body></html>
