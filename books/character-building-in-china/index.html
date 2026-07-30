@@ -11,8 +11,12 @@ body{margin:0;background:var(--bg);color:var(--fg);
 font-family:"Songti SC","SimSun","STSong","Source Han Serif SC","Noto Serif CJK SC","Microsoft YaHei",Georgia,serif;
 line-height:1.9;-webkit-text-size-adjust:100%}
 #bar{position:fixed;top:0;left:0;right:0;height:3px;background:var(--acc);width:0;z-index:60;transition:width .1s}
-header{position:sticky;top:0;z-index:50;background:color-mix(in srgb,var(--bg) 92%,transparent);
+header{position:sticky;top:0;z-index:50;background:rgba(250,248,244,.92);
 backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+html[data-theme=dark] header{background:rgba(22,21,15,.92)}
+@supports (background:color-mix(in srgb,red,transparent)){
+ header{background:color-mix(in srgb,var(--bg) 92%,transparent)}
+}
 .hin{max-width:1180px;margin:0 auto;padding:10px 20px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
 .brand{font-size:15px;font-weight:600;letter-spacing:.02em;margin-right:auto;white-space:nowrap}
 .brand small{display:block;font-size:11px;color:var(--mut);font-weight:400;letter-spacing:.04em}
@@ -66,6 +70,11 @@ background:var(--card);color:var(--mut);font-size:17px;cursor:pointer;opacity:0;
  .title h1{font-size:29px} .ctitle{font-size:22px}
  html[data-lang=both] .p{grid-template-columns:1fr;gap:9px}
  .brand small{display:none}
+ .hin{gap:8px 10px}
+ .brand{width:100%;margin-right:0}
+ .grp{flex:1}
+ .grp button{flex:1;padding:8px 6px;text-align:center}
+ .ico{width:36px;height:36px}
 }
 @media print{header,nav,#top,#bar{display:none} .wrap{display:block}}
 </style></head>
