@@ -17,16 +17,22 @@ html[data-theme=dark] header{background:rgba(22,21,15,.92)}
 @supports (background:color-mix(in srgb,red,transparent)){
  header{background:color-mix(in srgb,var(--bg) 92%,transparent)}
 }
-.hin{max-width:1180px;margin:0 auto;padding:10px 20px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
-.brand{font-size:18px;font-weight:600;letter-spacing:.02em;margin-right:auto;white-space:nowrap}
+.hin{max-width:1180px;margin:0 auto;padding:10px 20px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;position:relative}
+.brand{font-size:18px;font-weight:600;letter-spacing:.02em;margin-right:auto;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .brand small{display:block;font-size:11px;color:var(--mut);font-weight:400;letter-spacing:.04em}
 .grp{display:flex;border:1px solid var(--line);border-radius:8px;overflow:hidden}
 .grp button{font:inherit;font-size:13px;padding:6px 13px;background:transparent;color:var(--mut);
 border:0;cursor:pointer;border-right:1px solid var(--line);white-space:nowrap}
 .grp button:last-child{border-right:0}
-.grp button[aria-pressed=true]{background:var(--acc);color:#fff}
+.langbtn[aria-pressed=true]{background:var(--acc);color:#fff}
 .ico{font:inherit;font-size:14px;width:32px;height:32px;border:1px solid var(--line);border-radius:8px;
-background:transparent;color:var(--mut);cursor:pointer;line-height:1}
+background:transparent;color:var(--mut);cursor:pointer;line-height:1;flex:none}
+.panel{position:absolute;top:100%;right:20px;margin-top:8px;background:var(--card);border:1px solid var(--line);
+border-radius:10px;padding:6px 14px;box-shadow:0 10px 30px rgba(0,0,0,.14);min-width:230px;z-index:55}
+.panel[hidden]{display:none}
+.panel-row{display:flex;align-items:center;justify-content:space-between;padding:11px 0;gap:16px}
+.panel-row+.panel-row{border-top:1px solid var(--line)}
+.panel-label{font-size:13px;color:var(--mut);white-space:nowrap}
 .wrap{max-width:1180px;margin:0 auto;padding:0 20px;display:grid;grid-template-columns:210px minmax(0,1fr);gap:44px}
 nav{position:sticky;top:74px;align-self:start;max-height:calc(100vh - 96px);overflow:auto;padding:26px 0}
 nav h3{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--mut);margin:0 0 12px}
@@ -52,12 +58,6 @@ p.en{font-family:Georgia,"Iowan Old Style","Times New Roman",serif}
 p.zh{font-family:"Kaiti SC","STKaiti","KaiTi","977F53","Songti SC","SimSun","Noto Serif CJK SC",serif;text-indent:2em}
 html[data-lang=zh] p.en,html[data-lang=en] p.zh{display:none}
 html[data-lang=zh] .en-i,html[data-lang=en] .zh-i{display:none}
-html[data-lang=both] nav .en-i,html[data-lang=both] .meta .en-i{display:none}
-html[data-lang=both] h2 .en-i{display:block;font-size:17px;font-style:italic;color:var(--mut);margin-top:3px}
-html[data-lang=both] .p{display:grid;grid-template-columns:1fr 1fr;gap:26px;
-padding-bottom:var(--pgap,1.35em);border-bottom:1px dashed var(--line);--pgap:1.5em}
-html[data-lang=both] p.en{color:var(--mut);font-size:calc(var(--fs) - 2px)}
-html[data-lang=both] p.zh{text-indent:0}
 footer{border-top:1px solid var(--line);margin-top:60px;padding:26px 0 0;font-size:12.5px;color:var(--mut);line-height:1.9}
 #top{position:fixed;right:22px;bottom:22px;width:42px;height:42px;border-radius:50%;border:1px solid var(--line);
 background:var(--card);color:var(--mut);font-size:17px;cursor:pointer;opacity:0;pointer-events:none;transition:.2s;z-index:40}
@@ -69,15 +69,9 @@ background:var(--card);color:var(--mut);font-size:17px;cursor:pointer;opacity:0;
  nav a{border:1px solid var(--line);border-radius:20px;padding:5px 12px;font-size:13px}
  nav a.on{border-color:var(--acc)}
  .title h1{font-size:29px} .ctitle{font-size:22px}
- html[data-lang=both] .p{grid-template-columns:1fr;gap:9px}
  .brand small{display:none}
- .hin{gap:8px 10px}
- .brand{width:100%;margin-right:0}
- .grp{flex:1}
- .grp button{flex:1;padding:8px 6px;text-align:center}
  .ico{width:36px;height:36px}
- .chapter{scroll-margin-top:110px}
- nav{scroll-margin-top:110px}
+ .panel{right:17px}
 }
 @media print{header,nav,#top,#bar{display:none} .wrap{display:block}}
 </style></head>
@@ -85,13 +79,26 @@ background:var(--card);color:var(--mut);font-size:17px;cursor:pointer;opacity:0;
 <div id="bar"></div>
 <header><div class="hin">
  <div class="brand">在中国塑造品格<small>Character-Building in China</small></div>
- <div class="grp" role="group" aria-label="语言">
-  <button data-lang="zh">中文</button><button data-lang="en">English</button><button data-lang="both">对照</button>
- </div>
- <button class="ico" id="minus" title="缩小字号">A-</button>
- <button class="ico" id="plus" title="放大字号">A+</button>
- <button class="ico" id="theme" title="深色模式">◐</button>
  <button class="ico" id="toc-btn" title="目录">☰</button>
+ <button class="ico" id="settings-btn" title="设置" aria-expanded="false">⚙</button>
+ <div class="panel" id="settings-panel" hidden>
+  <div class="panel-row">
+   <span class="panel-label">语言<span class="en-i"> Language</span></span>
+   <div class="grp" role="group" aria-label="语言">
+    <button class="langbtn" data-lang="zh">中文</button><button class="langbtn" data-lang="en">English</button>
+   </div>
+  </div>
+  <div class="panel-row">
+   <span class="panel-label">字号<span class="en-i"> Font size</span></span>
+   <div class="grp">
+    <button id="minus" title="缩小字号">A-</button><button id="plus" title="放大字号">A+</button>
+   </div>
+  </div>
+  <div class="panel-row">
+   <span class="panel-label">深色模式<span class="en-i"> Dark mode</span></span>
+   <button class="ico" id="theme" title="深色模式">◐</button>
+  </div>
+ </div>
 </div></header>
 <div class="wrap">
 <nav id="toc"><h3>目录 Contents</h3><ol><li><a href="#ch1"><span class="tn">1</span><span class="zh-i">家世与早年</span><span class="en-i">Ancestry and Early Years</span></a></li><li><a href="#ch2"><span class="tn">2</span><span class="zh-i">奔赴禾场</span><span class="en-i">Getting to the Field</span></a></li><li><a href="#ch3"><span class="tn">3</span><span class="zh-i">安家与语言学习</span><span class="en-i">Home-Making and Language Study</span></a></li><li><a href="#ch4"><span class="tn">4</span><span class="zh-i">创办学校的最初尝试</span><span class="en-i">First Steps in College-Making</span></a></li></ol></nav>
@@ -198,9 +205,20 @@ background:var(--card);color:var(--mut);font-size:17px;cursor:pointer;opacity:0;
 <button id="top" title="回到顶部">↑</button>
 <script>
 var H=document.documentElement,LS=window.localStorage;
-function lang(v){H.dataset.lang=v;document.querySelectorAll('.grp button').forEach(function(b){
- b.setAttribute('aria-pressed',b.dataset.lang===v);});try{LS.setItem('cb-lang',v)}catch(e){}}
-document.querySelectorAll('.grp button').forEach(function(b){
+function lang(v){
+ var anchor=null,minTop=1e9;
+ document.querySelectorAll('.p').forEach(function(p){
+  var r=p.getBoundingClientRect();
+  if(r.bottom>0&&r.top<minTop){minTop=r.top;anchor=p}
+ });
+ var before=anchor?anchor.getBoundingClientRect().top:null;
+ H.dataset.lang=v;
+ document.querySelectorAll('.langbtn').forEach(function(b){
+  b.setAttribute('aria-pressed',b.dataset.lang===v);});
+ try{LS.setItem('cb-lang',v)}catch(e){}
+ if(anchor){var after=anchor.getBoundingClientRect().top;window.scrollBy(0,after-before)}
+}
+document.querySelectorAll('.langbtn').forEach(function(b){
  b.onclick=function(){lang(b.dataset.lang)};});
 var fs=19;
 function setfs(v){fs=Math.min(26,Math.max(15,v));H.style.setProperty('--fs',fs+'px');
@@ -209,8 +227,22 @@ document.getElementById('plus').onclick=function(){setfs(fs+1)};
 document.getElementById('minus').onclick=function(){setfs(fs-1)};
 document.getElementById('theme').onclick=function(){
  var t=H.dataset.theme==='dark'?'light':'dark';H.dataset.theme=t;try{LS.setItem('cb-theme',t)}catch(e){}};
-document.getElementById('toc-btn').onclick=function(){
+var tocBtn=document.getElementById('toc-btn'),settingsBtn=document.getElementById('settings-btn'),
+    panel=document.getElementById('settings-panel');
+tocBtn.onclick=function(){
+ panel.setAttribute('hidden','');settingsBtn.setAttribute('aria-expanded','false');
  document.getElementById('toc').scrollIntoView({behavior:'smooth',block:'start'})};
+settingsBtn.onclick=function(e){
+ e.stopPropagation();
+ var opening=panel.hasAttribute('hidden');
+ if(opening){panel.removeAttribute('hidden');settingsBtn.setAttribute('aria-expanded','true')}
+ else{panel.setAttribute('hidden','');settingsBtn.setAttribute('aria-expanded','false')}
+};
+document.addEventListener('click',function(e){
+ if(!panel.hasAttribute('hidden')&&!panel.contains(e.target)&&e.target!==settingsBtn){
+  panel.setAttribute('hidden','');settingsBtn.setAttribute('aria-expanded','false');
+ }
+});
 try{
  lang(LS.getItem('cb-lang')||'zh');
  setfs(parseInt(LS.getItem('cb-fs'),10)||19);
