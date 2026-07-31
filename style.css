@@ -53,27 +53,9 @@ body {
   cursor: pointer;
 }
 
-.hero {
-  padding: 48px 0 24px;
-}
-
-.hero h1 {
-  font-size: 1.8rem;
-  margin: 0 0 12px;
-}
-
-.lead {
-  color: var(--muted);
-  font-size: 1.05rem;
-}
-
 .books {
-  padding: 24px 0 64px;
+  padding: 40px 0 64px;
   border-top: 1px solid var(--border);
-}
-
-.placeholder-note {
-  color: var(--muted);
 }
 
 .book-list {
