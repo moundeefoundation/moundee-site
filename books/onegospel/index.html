@@ -225,11 +225,28 @@ function paginateInit(){
  goToPage(0,true);
 }
 function lang(v){
- withRepagination(function(){
-  H.dataset.lang=v;
-  langBtn.textContent=v==='zh'?'EN':'中';
-  try{LS.setItem('og-lang',v)}catch(e){}
- });
+ var oldStarts=chapterStarts,oldTotal=totalPages,curSec=null,curIdx=-1;
+ oldStarts.forEach(function(c,i){if(c.page<=curPage){curSec=c;curIdx=i}});
+ var oldStart=curSec?curSec.page:0;
+ var oldEnd=(curSec&&curIdx+1<oldStarts.length)?oldStarts[curIdx+1].page:oldTotal;
+ var frac=oldEnd>oldStart?(curPage-oldStart)/(oldEnd-oldStart):0;
+
+ H.dataset.lang=v;
+ langBtn.textContent=v==='zh'?'EN':'中';
+ try{LS.setItem('og-lang',v)}catch(e){}
+ measure();
+ recomputeLayout();
+
+ var target=0;
+ if(curSec){
+  var newIdx=chapterStarts.map(function(c){return c.id}).indexOf(curSec.id);
+  if(newIdx>=0){
+   var newStart=chapterStarts[newIdx].page;
+   var newEnd=newIdx+1<chapterStarts.length?chapterStarts[newIdx+1].page:totalPages;
+   target=Math.round(newStart+frac*(newEnd-newStart));
+  }
+ }
+ goToPage(target,true);
 }
 function setfs(v){
  var nv=Math.min(26,Math.max(15,v));
