@@ -40,6 +40,8 @@ color:var(--fg);font-size:16px;line-height:1.5;border-left:2px solid transparent
 .title h1{font-size:calc(var(--fs) + 19px);line-height:1.25;margin:0 0 6px;letter-spacing:.02em}
 .title .alt{font-size:calc(var(--fs) - 2px);color:var(--mut);font-style:italic;margin:0 0 20px}
 .title .meta{font-size:calc(var(--fs) - 6px);color:var(--mut);line-height:1.8}
+.key-label{margin:26px 0 8px;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--mut)}
+.colorkey{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13px;line-height:1.6}
 .chapter{padding:8vh 20px 40vh;break-before:column}
 .chapter h2{margin:0 0 10px;padding-bottom:14px;border-bottom:1px solid var(--line)}
 .cnum{display:block;font-size:11px;letter-spacing:.16em;color:var(--acc);text-transform:uppercase;margin-bottom:6px}
@@ -110,6 +112,24 @@ box-shadow:0 4px 14px rgba(0,0,0,.12)}
  <span class="zh-i">中英文对照 · 点击经文出处标签，查看原文经节（和合本）</span>
  <span class="en-i">Chinese-English parallel · tap a reference chip to view the original source passage (ASV)</span>
  </p>
+ <p class="key-label"><span class="zh-i">颜色标识</span><span class="en-i">Color Key</span></p>
+ <div class="colorkey">
+  <span style="color:#0000FF"><span class="zh-i">太：蓝色</span><span class="en-i">Matt: Blue</span></span>
+  <span style="color:#808000"><span class="zh-i">可：暗黄</span><span class="en-i">Mark: Dark Yellow</span></span>
+  <span style="color:#FF0000"><span class="zh-i">路：红色</span><span class="en-i">Luke: Red</span></span>
+  <span style="color:#808080"><span class="zh-i">约：深灰</span><span class="en-i">John: Dark Gray</span></span>
+  <span style="color:#008000"><span class="zh-i">太&amp;可：深绿</span><span class="en-i">Matt &amp; Mark: Dark Green</span></span>
+  <span style="color:#FF00FF"><span class="zh-i">太&amp;路：洋红</span><span class="en-i">Matt &amp; Luke: Magenta</span></span>
+  <span style="color:#00FFFF"><span class="zh-i">太&amp;约：青绿</span><span class="en-i">Matt &amp; John: Turquoise</span></span>
+  <span style="color:#008080"><span class="zh-i">可&amp;路：蓝绿</span><span class="en-i">Mark &amp; Luke: Teal</span></span>
+  <span style="color:#00FF00"><span class="zh-i">可&amp;约：亮绿</span><span class="en-i">Mark &amp; John: Bright Green</span></span>
+  <span style="color:#C0C0C0"><span class="zh-i">路&amp;约：浅灰</span><span class="en-i">Luke &amp; John: Light Gray</span></span>
+  <span style="color:#800000"><span class="zh-i">太&amp;可&amp;路：暗红</span><span class="en-i">Matt, Mark &amp; Luke: Dark Red</span></span>
+  <span style="color:#000080"><span class="zh-i">太&amp;可&amp;约：深蓝</span><span class="en-i">Matt, Mark &amp; John: Dark Blue</span></span>
+  <span style="color:#FF8000"><span class="zh-i">太&amp;路&amp;约：橙色</span><span class="en-i">Matt, Luke &amp; John: Orange</span></span>
+  <span style="color:#800080"><span class="zh-i">可&amp;路&amp;约：深洋红</span><span class="en-i">Mark, Luke &amp; John: Dark Magenta</span></span>
+  <span style="color:#000000"><span class="zh-i">太&amp;可&amp;路&amp;约：黑色</span><span class="en-i">Matt, Mark, Luke &amp; John: Black</span></span>
+ </div>
 </div>
 <section class="chapter" id="sec1">
 <h2>
