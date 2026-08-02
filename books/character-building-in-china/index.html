@@ -21,6 +21,7 @@ html[data-theme=dark] header{background:rgba(22,21,15,.92)}
 .ico{font:inherit;font-size:14px;width:34px;height:34px;border:1px solid var(--line);border-radius:8px;
 background:transparent;color:var(--mut);cursor:pointer;line-height:1;flex:none}
 #lang-btn{font-size:12px;font-weight:600}
+.ico.active{color:var(--acc);border-color:var(--acc)}
 .overlay{position:fixed;inset:0;z-index:70}
 .overlay[hidden]{display:none}
 .overlay-backdrop{position:absolute;inset:0;background:rgba(0,0,0,.35)}
@@ -81,6 +82,7 @@ box-shadow:0 4px 14px rgba(0,0,0,.12)}
  <div class="brand">在中国塑造品格<small>Character-Building in China</small></div>
  <button class="ico" id="toc-btn" title="目录">☰</button>
  <button class="ico" id="lang-btn" title="切换语言">EN</button>
+ <button class="ico" id="speak-btn" title="朗读 Read Aloud">&#9654;</button>
  <button class="ico" id="minus" title="缩小字号">A-</button>
  <button class="ico" id="plus" title="放大字号">A+</button>
  <button class="ico" id="theme" title="深色模式">◐</button>
@@ -525,8 +527,8 @@ function goToPage(n,instant){
  navPrev.disabled=curPage<=0;
  navNext.disabled=curPage>=totalPages-1;
 }
-navPrev.onclick=function(e){e.stopPropagation();goToPage(curPage-1)};
-navNext.onclick=function(e){e.stopPropagation();goToPage(curPage+1)};
+navPrev.onclick=function(e){e.stopPropagation();stopSpeak();goToPage(curPage-1)};
+navNext.onclick=function(e){e.stopPropagation();stopSpeak();goToPage(curPage+1)};
 function withRepagination(mutate){
  var anchor=pageW?findElementAtPage(curPage):null;
  mutate();
@@ -540,14 +542,17 @@ function paginateInit(){
  goToPage(0,true);
 }
 function lang(v){
+ stopSpeak();
  withRepagination(function(){
   H.dataset.lang=v;
+  H.lang=v==='zh'?'zh-CN':'en';
   langBtn.textContent=v==='zh'?'EN':'中';
   try{LS.setItem('cb-lang',v)}catch(e){}
  });
 }
 function setfs(v){
  var nv=Math.min(26,Math.max(15,v));
+ stopSpeak();
  withRepagination(function(){
   fs=nv;H.style.setProperty('--fs',fs+'px');
   try{LS.setItem('cb-fs',fs)}catch(e){}
@@ -574,6 +579,7 @@ tocBackdrop.onclick=closeToc;
 [].slice.call(tocOverlay.querySelectorAll('a')).forEach(function(a){
  a.onclick=function(e){
   e.preventDefault();
+  stopSpeak();
   var id=a.getAttribute('data-ch'),entry=chapterStarts.filter(function(c){return c.id===id})[0];
   closeToc();
   if(entry)goToPage(entry.page);
@@ -582,6 +588,7 @@ tocBackdrop.onclick=closeToc;
 
 var touchStartX=null,touchStartY=null,touchMoved=false,lastNavAt=0;
 function navAt(clientX){
+ stopSpeak();
  var x=clientX/reader.clientWidth;
  if(x<0.3)goToPage(curPage-1);else goToPage(curPage+1);
 }
@@ -593,6 +600,7 @@ reader.addEventListener('touchend',function(e){
  if(touchStartX===null)return;
  var t=e.changedTouches[0],dx=t.clientX-touchStartX,dy=t.clientY-touchStartY;
  if(Math.abs(dx)>40&&Math.abs(dx)>Math.abs(dy)){
+  stopSpeak();
   if(dx<0)goToPage(curPage+1);else goToPage(curPage-1);
  }else if(!touchMoved||(Math.abs(dx)<10&&Math.abs(dy)<10)){
   navAt(t.clientX);
@@ -603,6 +611,64 @@ reader.addEventListener('click',function(e){
  if(Date.now()-lastNavAt<600)return;
  navAt(e.clientX);
 });
+
+var speakBtn=document.getElementById('speak-btn'),synth=window.speechSynthesis;
+var speaking=false,speakQueue=[],speakIdx=0;
+function splitSentences(t){
+ var parts=t.match(/[^。！？.!?\n]+[。！？.!?]*/g);
+ return parts?parts.map(function(s){return s.trim()}).filter(Boolean):[t];
+}
+function buildSpeakQueue(fromPage){
+ var q=[],started=false;
+ [].slice.call(document.querySelectorAll('.chapter')).forEach(function(ch){
+  var els=[ch.querySelector('h2')].concat([].slice.call(ch.querySelectorAll('.p')));
+  els.forEach(function(el){
+   if(!el)return;
+   var page=Math.round(el.offsetLeft/pageW);
+   if(page>=fromPage)started=true;
+   if(!started)return;
+   var txt=(el.innerText||'').trim();
+   if(!txt)return;
+   splitSentences(txt).forEach(function(s){q.push({text:s,page:page})});
+  });
+ });
+ return q;
+}
+function speakNext(){
+ if(!speaking)return;
+ if(speakIdx>=speakQueue.length){stopSpeak();return}
+ var item=speakQueue[speakIdx];
+ if(item.page!==curPage)goToPage(item.page);
+ var u=new SpeechSynthesisUtterance(item.text);
+ u.lang=H.dataset.lang==='zh'?'zh-CN':'en-US';
+ u.onend=function(){speakIdx++;speakNext()};
+ u.onerror=function(){speakIdx++;speakNext()};
+ synth.speak(u);
+}
+function startSpeak(){
+ if(!synth)return;
+ synth.cancel();
+ speakQueue=buildSpeakQueue(curPage);
+ speakIdx=0;
+ speaking=true;
+ speakBtn.textContent='⏸';
+ speakBtn.classList.add('active');
+ speakBtn.title='停止朗读 Stop Reading';
+ speakNext();
+}
+function stopSpeak(){
+ if(!speaking&&(!synth||!synth.speaking))return;
+ speaking=false;
+ if(synth)synth.cancel();
+ speakBtn.textContent='▶';
+ speakBtn.classList.remove('active');
+ speakBtn.title='朗读 Read Aloud';
+}
+if(synth){
+ speakBtn.onclick=function(){speaking?stopSpeak():startSpeak()};
+}else{
+ speakBtn.style.display='none';
+}
 
 var resizeTimer;
 function scheduleRepaginate(delay){
@@ -621,7 +687,8 @@ try{
  H.dataset.theme=LS.getItem('cb-theme')||'light';
  var initialLang=LS.getItem('cb-lang')||'zh';
  H.dataset.lang=initialLang;
+ H.lang=initialLang==='zh'?'zh-CN':'en';
  langBtn.textContent=initialLang==='zh'?'EN':'中';
-}catch(e){H.dataset.lang='zh';H.dataset.theme='light';langBtn.textContent='EN'}
+}catch(e){H.dataset.lang='zh';H.lang='zh-CN';H.dataset.theme='light';langBtn.textContent='EN'}
 paginateInit();
 </script></body></html>
