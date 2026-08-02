@@ -596,24 +596,30 @@ tocBackdrop.onclick=closeToc;
  };
 });
 
-var touchStartX=null,touchStartY=null,touchMoved=false,lastNavAt=0;
+var touchStartX=null,touchStartY=null,touchMoved=false,touchStartTime=0,lastNavAt=0;
+function hasSelection(){
+ var s=window.getSelection();
+ return !!(s&&s.toString().length>0);
+}
 function navAt(clientX){
+ if(hasSelection())return;
  var x=clientX/reader.clientWidth;
  if(x<0.3)goToPage(curPage-1);else goToPage(curPage+1);
 }
 reader.addEventListener('touchstart',function(e){
- var t=e.touches[0];touchStartX=t.clientX;touchStartY=t.clientY;touchMoved=false;
+ var t=e.touches[0];touchStartX=t.clientX;touchStartY=t.clientY;touchMoved=false;touchStartTime=Date.now();
 },{passive:true});
 reader.addEventListener('touchmove',function(){touchMoved=true},{passive:true});
 reader.addEventListener('touchend',function(e){
  if(touchStartX===null)return;
- var t=e.changedTouches[0],dx=t.clientX-touchStartX,dy=t.clientY-touchStartY;
+ var t=e.changedTouches[0],dx=t.clientX-touchStartX,dy=t.clientY-touchStartY,dur=Date.now()-touchStartTime;
+ lastNavAt=Date.now();touchStartX=null;
+ if(hasSelection())return;
  if(Math.abs(dx)>40&&Math.abs(dx)>Math.abs(dy)){
   if(dx<0)goToPage(curPage+1);else goToPage(curPage-1);
- }else if(!touchMoved||(Math.abs(dx)<10&&Math.abs(dy)<10)){
+ }else if(dur<450&&(!touchMoved||(Math.abs(dx)<10&&Math.abs(dy)<10))){
   navAt(t.clientX);
  }
- lastNavAt=Date.now();touchStartX=null;
 });
 reader.addEventListener('click',function(e){
  if(Date.now()-lastNavAt<600)return;
