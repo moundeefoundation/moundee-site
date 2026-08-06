@@ -41,8 +41,10 @@ color:var(--fg);font-size:16px;line-height:1.5;border-left:2px solid transparent
 .title .alt{font-size:calc(var(--fs) - 2px);color:var(--mut);font-style:italic;margin:0 0 20px}
 .title .meta{font-size:calc(var(--fs) - 6px);color:var(--mut);line-height:1.8}
 .key-label{margin:26px 0 8px;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--mut)}
+.toc-key-label{margin-top:4px}
 .colorkey{list-style:none;margin:0;padding:0;font-size:13px;columns:2;column-gap:20px}
 .colorkey li{padding:4px 0;break-inside:avoid}
+#toc-overlay .colorkey{padding-bottom:14px;margin-bottom:6px;border-bottom:1px solid var(--line)}
 .chapter{padding:8vh 20px 6vh;break-before:column}
 .chapter h2{margin:0 0 10px;padding-bottom:14px;border-bottom:1px solid var(--line)}
 .cnum{display:block;font-size:11px;letter-spacing:.16em;color:var(--acc);text-transform:uppercase;margin-bottom:6px}
@@ -93,6 +95,25 @@ box-shadow:0 4px 14px rgba(0,0,0,.12)}
  <div class="overlay-backdrop" id="toc-backdrop"></div>
  <div class="overlay-card">
   <div class="overlay-head"><h3>目录 <span class="en-i">Contents</span></h3><button class="ico" id="toc-close" title="关闭">✕</button></div>
+  <p class="key-label toc-key-label"><span class="zh-i">颜色标识</span><span class="en-i">Color Key</span></p>
+  <ul class="colorkey">
+   <li style="color:#0000FF"><span class="zh-i">太：蓝色</span><span class="en-i">Matt: Blue</span></li>
+   <li style="color:#808000"><span class="zh-i">可：暗黄</span><span class="en-i">Mark: Dark Yellow</span></li>
+   <li style="color:#FF0000"><span class="zh-i">路：红色</span><span class="en-i">Luke: Red</span></li>
+   <li style="color:#808080"><span class="zh-i">约：深灰</span><span class="en-i">John: Dark Gray</span></li>
+   <li style="color:#008000"><span class="zh-i">太&amp;可：深绿</span><span class="en-i">Matt &amp; Mark: Dark Green</span></li>
+   <li style="color:#FF00FF"><span class="zh-i">太&amp;路：洋红</span><span class="en-i">Matt &amp; Luke: Magenta</span></li>
+   <li style="color:#00FFFF"><span class="zh-i">太&amp;约：青绿</span><span class="en-i">Matt &amp; John: Turquoise</span></li>
+   <li style="color:#008080"><span class="zh-i">可&amp;路：蓝绿</span><span class="en-i">Mark &amp; Luke: Teal</span></li>
+   <li style="color:#00FF00"><span class="zh-i">可&amp;约：亮绿</span><span class="en-i">Mark &amp; John: Bright Green</span></li>
+   <li style="color:#C0C0C0"><span class="zh-i">路&amp;约：浅灰</span><span class="en-i">Luke &amp; John: Light Gray</span></li>
+   <li style="color:#800000"><span class="zh-i">太&amp;可&amp;路：暗红</span><span class="en-i">Matt, Mark &amp; Luke: Dark Red</span></li>
+   <li style="color:#000080"><span class="zh-i">太&amp;可&amp;约：深蓝</span><span class="en-i">Matt, Mark &amp; John: Dark Blue</span></li>
+   <li style="color:#FF8000"><span class="zh-i">太&amp;路&amp;约：橙色</span><span class="en-i">Matt, Luke &amp; John: Orange</span></li>
+   <li style="color:#800080"><span class="zh-i">可&amp;路&amp;约：深洋红</span><span class="en-i">Mark, Luke &amp; John: Dark Magenta</span></li>
+   <li style="color:#000000"><span class="zh-i">太&amp;可&amp;路&amp;约：黑色</span><span class="en-i">Matt, Mark, Luke &amp; John: Black</span></li>
+   <li style="font-style:italic"><span class="zh-i">编辑增字</span><span class="en-i">Editorial addition</span></li>
+  </ul>
   <ol>
 <li><a href="#sec1" data-ch="sec1"><span class="tn">1</span><span class="zh-i">施洗约翰传道概览</span><span class="en-i">John’s teaching, an overview</span></a></li><li><a href="#sec2" data-ch="sec2"><span class="tn">2</span><span class="zh-i">施洗约翰传道于犹太旷野</span><span class="en-i">John the Baptist’s Ministry in the Judean wilderness</span></a></li><li><a href="#sec3" data-ch="sec3"><span class="tn">3</span><span class="zh-i">耶稣受约翰之洗于约旦河</span><span class="en-i">Jesus is baptized by John in the Jordan</span></a></li><li><a href="#sec4" data-ch="sec4"><span class="tn">4</span><span class="zh-i">耶稣受试探于旷野</span><span class="en-i">Jesus’ temptation in the wilderness</span></a></li><li><a href="#sec5" data-ch="sec5"><span class="tn">5</span><span class="zh-i">约翰为耶稣作见证于伯大尼</span><span class="en-i">John testifies about Jesus in Bethabara</span></a></li>  </ol>
  </div>
@@ -113,25 +134,6 @@ box-shadow:0 4px 14px rgba(0,0,0,.12)}
  <span class="zh-i">中英文对照 · 点击经文出处标签，查看原文经节（和合本）</span>
  <span class="en-i">Chinese-English parallel · tap a reference chip to view the original source passage (ASV)</span>
  </p>
- <p class="key-label"><span class="zh-i">颜色标识</span><span class="en-i">Color Key</span></p>
- <ul class="colorkey">
-  <li style="color:#0000FF"><span class="zh-i">太：蓝色</span><span class="en-i">Matt: Blue</span></li>
-  <li style="color:#808000"><span class="zh-i">可：暗黄</span><span class="en-i">Mark: Dark Yellow</span></li>
-  <li style="color:#FF0000"><span class="zh-i">路：红色</span><span class="en-i">Luke: Red</span></li>
-  <li style="color:#808080"><span class="zh-i">约：深灰</span><span class="en-i">John: Dark Gray</span></li>
-  <li style="color:#008000"><span class="zh-i">太&amp;可：深绿</span><span class="en-i">Matt &amp; Mark: Dark Green</span></li>
-  <li style="color:#FF00FF"><span class="zh-i">太&amp;路：洋红</span><span class="en-i">Matt &amp; Luke: Magenta</span></li>
-  <li style="color:#00FFFF"><span class="zh-i">太&amp;约：青绿</span><span class="en-i">Matt &amp; John: Turquoise</span></li>
-  <li style="color:#008080"><span class="zh-i">可&amp;路：蓝绿</span><span class="en-i">Mark &amp; Luke: Teal</span></li>
-  <li style="color:#00FF00"><span class="zh-i">可&amp;约：亮绿</span><span class="en-i">Mark &amp; John: Bright Green</span></li>
-  <li style="color:#C0C0C0"><span class="zh-i">路&amp;约：浅灰</span><span class="en-i">Luke &amp; John: Light Gray</span></li>
-  <li style="color:#800000"><span class="zh-i">太&amp;可&amp;路：暗红</span><span class="en-i">Matt, Mark &amp; Luke: Dark Red</span></li>
-  <li style="color:#000080"><span class="zh-i">太&amp;可&amp;约：深蓝</span><span class="en-i">Matt, Mark &amp; John: Dark Blue</span></li>
-  <li style="color:#FF8000"><span class="zh-i">太&amp;路&amp;约：橙色</span><span class="en-i">Matt, Luke &amp; John: Orange</span></li>
-  <li style="color:#800080"><span class="zh-i">可&amp;路&amp;约：深洋红</span><span class="en-i">Mark, Luke &amp; John: Dark Magenta</span></li>
-  <li style="color:#000000"><span class="zh-i">太&amp;可&amp;路&amp;约：黑色</span><span class="en-i">Matt, Mark, Luke &amp; John: Black</span></li>
-  <li style="font-style:italic"><span class="zh-i">编辑增字</span><span class="en-i">Editorial addition</span></li>
- </ul>
 </div>
 <section class="chapter" id="sec1">
 <h2>
