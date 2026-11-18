@@ -74,12 +74,28 @@ box-shadow:0 4px 14px rgba(0,0,0,.12)}
  .brand{flex:1;min-width:40px;margin-right:0}
  .ico{width:38px;height:38px}
 }
-@media print{header,.overlay,#pageind{display:none}}
+#abar{position:fixed;left:0;right:0;bottom:0;z-index:60;background:var(--card);border-top:1px solid var(--line);display:none;
+padding:8px 12px calc(8px + env(safe-area-inset-bottom))}
+html.aud-on #abar{display:block}
+html.aud-on .reader{bottom:152px}
+html.aud-on #pageind{bottom:128px}
+#abar .ain{max-width:720px;margin:0 auto}
+#abar .arow{display:flex;align-items:center;gap:6px;justify-content:space-between}
+#abar .ctl{margin-top:4px;justify-content:center;gap:8px}
+#atitle{font-size:13px;color:var(--fg);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#atime{font-size:12px;color:var(--mut);flex:none;font-variant-numeric:tabular-nums}
+#aseek{width:100%;margin:6px 0 0;accent-color:var(--acc)}
+#abar .ico{width:auto;min-width:40px;padding:0 8px;font-size:13px}
+#abar .ico.big{min-width:52px;height:40px;font-size:16px;color:var(--acc);border-color:var(--acc)}
+@media(max-width:420px){.hin{padding:10px 14px}header .ico{width:34px;height:34px}}
+@media(max-width:360px){.hin{gap:4px;padding:10px 10px}.brand{font-size:16px}#abar{padding-left:8px;padding-right:8px}#abar .ctl{gap:4px}#abar .ico{min-width:34px;padding:0 5px;font-size:12px}#abar .ico.big{min-width:44px}}
+@media print{header,.overlay,#pageind,#abar{display:none}}
 </style></head>
 <body>
 <header><div class="hin">
  <div class="brand">在华树人<small>Character-Building in China</small></div>
  <button class="ico" id="toc-btn" title="目录">☰</button>
+ <button class="ico" id="aud-btn" title="朗读 / Listen">🎧</button>
  <button class="ico" id="lang-btn" title="切换语言">EN</button>
  <button class="ico" id="minus" title="缩小字号">A-</button>
  <button class="ico" id="plus" title="放大字号">A+</button>
@@ -106,6 +122,19 @@ box-shadow:0 4px 14px rgba(0,0,0,.12)}
   </ol>
  </div>
 </div>
+<div id="abar"><div class="ain">
+ <div class="arow"><span id="atitle"></span><span id="atime">0:00 / 0:00</span></div>
+ <input type="range" id="aseek" min="0" max="1000" value="0" aria-label="progress">
+ <div class="arow ctl">
+  <button class="ico" id="aprev" title="上一章 / Previous chapter">«</button>
+  <button class="ico" id="aback" title="-15s">-15</button>
+  <button class="ico big" id="aplay" title="播放 / Play">▶</button>
+  <button class="ico" id="afwd" title="+15s">+15</button>
+  <button class="ico" id="anext" title="下一章 / Next chapter">»</button>
+  <button class="ico" id="aspeed" title="语速 / Speed">1×</button>
+  <button class="ico" id="aclose" title="关闭 / Close">✕</button>
+ </div>
+</div><audio id="aud" preload="metadata"></audio></div>
 <div class="reader" id="reader">
 <div class="pages" id="pages">
 <div class="title">
@@ -121,7 +150,7 @@ box-shadow:0 4px 14px rgba(0,0,0,.12)}
 <span class="zh-i ctitle">家世与早年</span>
 <span class="en-i ctitle">Ancestry and Early Years</span></h2>
 <div class="p"><p class="en">THE parents of Julia Brown were people of deep piety. The warmth of her kind heart and the never-failing light of her sunny face she inherited from her saintly mother, who was taken from her when she was eight years old. Her father, though always kind and affectionate to his children, was looked upon as a stern man. This was probably due to his Puritan ideals which made him rigidly upright, always regular in family religion, requiring the children to commit the Westminster Catechism, and invariably to attend church, four miles away, whatever the weather. His God-fearing resoluteness, fortitude and energy were very marked in his daughter&#x27;s character, and these were combined with the winsomeness of her mother to make her remarkable endowment. In person Mrs. Mateer was of medium height and good presence, attracting attention everywhere. Her flashing yet gentle dark eyes were not likely to pass unnoticed, and her genial manner won every heart.</p><p class="zh">茱莉亚·布朗（Julia Brown，即狄邦就烈的闺名）的双亲都是虔诚的基督徒。她那温暖慈爱的心肠和永不消逝的阳光般的笑容，继承自她圣洁的母亲——可惜母亲在她八岁时便离世了。她的父亲虽然对孩子们始终和蔼深情，却被人们视为一个严厉的人。这大概源于他的清教徒理想——他为人刚正不阿，始终坚持家庭敬拜，要求孩子们背诵《威斯敏斯特教理问答》，无论天气如何，都必须步行四英里（约6.4公里）前往教堂。他敬畏神，而且坚毅果敢和精力充沛，这些在女儿的性格中体现得格外鲜明，加上母亲温婉的性情融合其中，造就了她非凡的禀赋。就外表而言，茱莉亚·布朗身材中等、仪态端庄，无论走到哪里都能引人注目。她那双明亮而温柔的褐色眼睛令人过目难忘，和蔼的举止赢得了每个人的心。</p></div>
-<div class="p"><p class="en">Her father, Robert Brown, a cabinet-maker in western Pennsylvania, and her mother, Hannah Cunningham, moved with their family in the early thirties to a farm near Delaware, Ohio. Those were still pioneer days, when houses were built of undressed logs, and were few and far between. Mr. Brown was a man of large influence in the neighborhood, and for many years an elder in the Presbyterian Church of Delaware.</p><p class="zh">她的父亲罗伯特·布朗（Robert Brown）是宾夕法尼亚州西部的一名家具工匠；她的母亲母亲哈拿·坎宁安（Hannah Cunningham），在十九世纪三十年代初随家人迁至俄亥俄州特拉华（Delaware, Ohio）附近的一个农场。那时仍是拓荒年代，房屋用未加工的原木建造，稀疏散落在广袤的土地上。布朗先生在当地颇有威望，多年来一直担任特拉华长老会的长老。</p></div>
+<div class="p"><p class="en">Her father, Robert Brown, a cabinet-maker in western Pennsylvania, and her mother, Hannah Cunningham, moved with their family in the early thirties to a farm near Delaware, Ohio. Those were still pioneer days, when houses were built of undressed logs, and were few and far between. Mr. Brown was a man of large influence in the neighborhood, and for many years an elder in the Presbyterian Church of Delaware.</p><p class="zh">她的父亲罗伯特·布朗（Robert Brown）是宾夕法尼亚州西部的一名家具工匠；她的母亲哈拿·坎宁安（Hannah Cunningham），在十九世纪三十年代初随家人迁至俄亥俄州特拉华（Delaware, Ohio）附近的一个农场。那时仍是拓荒年代，房屋用未加工的原木建造，稀疏散落在广袤的土地上。布朗先生在当地颇有威望，多年来一直担任特拉华长老会的长老。</p></div>
 <div class="p"><p class="en">Into this home Julia was born in 1838, the fourth child in a family of six. Membership in a large family was a most valuable training in service and self-denial, and together with the experience in pioneer farm life did much to prepare her for the rough and trying ordeals of heathendom. She herself considered her education to be far from satisfactory. The district school of her earlier years was not of the best, and the two female seminaries she attended for three years, like others of that time, afforded very limited opportunities. However, she had a fine mind, capable of the highest culture, and she supplied the lack of her early years by a lifetime of study, reading, and self-improvement.</p><p class="zh">1838年，茱莉亚出生在这个家庭中，是六个孩子中的老四。在一个大家庭中成长，让她受到奉献和克己的宝贵训练，再加上拓荒农场生活的历练，为她日后在异教国度中经受艰苦考验做了充分的准备。她本人认为自己所受的教育远不够理想。她早年就读的乡村学校水平不高，后来就读了三年的两所女子学院，和那个时代的同类学校一样，提供的机会十分有限。然而，她拥有优秀的头脑，足以接受最高层次的培养，她通过毕生的学习、阅读和自我提升，弥补了早年教育的不足。</p></div>
 <div class="p"><p class="en">While in the seminary at Granville, Ohio, she helped organize and conduct a literary society of which she was the first president. This suggests her early interest in such work and was doubtless a preparation for the efficient service to be rendered later in connection with the literary society of Tengchow College. But the most significant experience of her seminary years was the marked change that came into her spiritual life. At the age of nineteen she was converted and consecrated herself unreservedly to any work to which the Master might call her.</p><p class="zh">在俄亥俄州格兰维尔（Granville, Ohio）的学院就读期间，她帮助组建并主持了一个文学社，自己担任第一任社长。这说明她很早就对文学活动产生了兴趣，无疑也为她日后在登州文会馆（Tengchow College）文学社中的出色服务奠定了基础。但学院岁月中最重要的经历，是她属灵生命的显著转变。十九岁时，她悔改信主，将自己毫无保留地奉献给主可能呼召她去做的一切事工。</p></div>
 <div class="p"><p class="en">On leaving the seminary she first taught a country school. At that time it was very unusual for a woman to assume entire control of a school. Miss Brown showed her gift for leadership in attempting it and her genius for teaching in making it a conspicuous success, all of which introduced her favorably to the school at Mt. Gilead, Ohio, where she taught for three years. A great love for children and influence over them made her work in those early years a pleasure, while her sense of responsibility spurred her on to do her best. She says, This task is so important and so lasting in its effects that the strongest may well shrink from it;&quot; but adds: &quot;As thy days, so shall thy strength be.&quot;</p><p class="zh">离开学院后，她首先在一所乡村学校任教。在那个年代，一个女性独自掌管一所学校是非常罕见的。布朗小姐（Miss Brown）勇于尝试，展现了她的领导才能；她出色的教学才华使这所学校声名远扬，也因此获得了在俄亥俄州吉利亚德山（Mt. Gilead, Ohio）学校任教三年的机会。她对孩子们的深切关爱以及对他们的影响力，使早年的教学工作成为一种乐趣，而强烈的责任感则驱策她竭尽全力。她曾写道：“这项工作意义如此重大、影响如此深远，即使最坚强的人也不免望而生畏。”但她又补充说：“你的日子如何，你的力量也必如何。”</p></div>
@@ -561,6 +590,7 @@ function lang(v){
   langBtn.textContent=v==='zh'?'EN':'中';
   try{LS.setItem('cb-lang',v)}catch(e){}
  });
+ if(typeof audLangChanged==='function')audLangChanged();
 }
 function setfs(v){
  var nv=Math.min(26,Math.max(15,v));
@@ -646,5 +676,96 @@ try{
  H.lang=initialLang==='zh'?'zh-CN':'en';
  langBtn.textContent=initialLang==='zh'?'EN':'中';
 }catch(e){H.dataset.lang='zh';H.lang='zh-CN';H.dataset.theme='light';langBtn.textContent='EN'}
+/* ---- audio player ---- */
+var aud=document.getElementById('aud'),abar=document.getElementById('abar'),atitle=document.getElementById('atitle'),
+    atime=document.getElementById('atime'),aseek=document.getElementById('aseek'),aplay=document.getElementById('aplay'),
+    aspeed=document.getElementById('aspeed');
+var aIdx=0,aLang='zh',audOn=false,aPending=null,aSeeking=false,aSaveAt=0,SPEEDS=[1,1.25,1.5,0.85],
+    aSpd=parseFloat((function(){try{return LS.getItem('cb-aspd')}catch(e){return 1}})())||1;
+aspeed.textContent=aSpd+'\u00d7';
+function chLinks(){return [].slice.call(tocOverlay.querySelectorAll('a'))}
+function curChapterIdx(){var c=0;chapterStarts.forEach(function(x,i){if(x.page<=curPage)c=i});return c}
+function two(n){return (n<10?'0':'')+n}
+function fmt(t){if(!isFinite(t))t=0;t=Math.floor(t);return Math.floor(t/60)+':'+two(t%60)}
+function chLabel(i){
+ var a=chLinks()[i],zh=H.dataset.lang==='zh';
+ return (zh?'\u7b2c'+(i+1)+'\u7ae0 ':'Ch. '+(i+1)+' ')+a.querySelector(zh?'.zh-i':'.en-i').textContent;
+}
+function setMedia(){
+ if(!('mediaSession' in navigator))return;
+ try{
+  navigator.mediaSession.metadata=new MediaMetadata({title:chLabel(aIdx),artist:'\u5728\u534e\u6811\u4eba',album:'Character-Building in China'});
+  navigator.mediaSession.setActionHandler('play',function(){aud.play()});
+  navigator.mediaSession.setActionHandler('pause',function(){aud.pause()});
+  navigator.mediaSession.setActionHandler('previoustrack',function(){audStep(-1)});
+  navigator.mediaSession.setActionHandler('nexttrack',function(){audStep(1)});
+  navigator.mediaSession.setActionHandler('seekbackward',function(){aud.currentTime=Math.max(0,aud.currentTime-15)});
+  navigator.mediaSession.setActionHandler('seekforward',function(){aud.currentTime=aud.currentTime+15});
+ }catch(e){}
+}
+function loadTrack(i,start,autoplay){
+ aIdx=i;aLang=H.dataset.lang;aPending=start||null;
+ aud.src='audio/'+aLang+'/ch'+two(i+1)+'.mp3';
+ atitle.textContent=chLabel(i);
+ aseek.value=0;atime.textContent='0:00 / 0:00';
+ setMedia();
+ if(autoplay){var p=aud.play();if(p&&p.catch)p.catch(function(){})}
+}
+function audStep(d){
+ var n=aIdx+d;
+ if(n<0||n>=chLinks().length)return;
+ loadTrack(n,null,true);
+ goToPage(chapterStarts[n].page);
+}
+aud.addEventListener('loadedmetadata',function(){
+ aud.playbackRate=aSpd;
+ if(aPending){
+  if(aPending.r!=null&&isFinite(aud.duration))aud.currentTime=aPending.r*aud.duration;
+  else if(aPending.t)aud.currentTime=aPending.t;
+  aPending=null;
+ }
+});
+aud.addEventListener('timeupdate',function(){
+ if(!aSeeking&&aud.duration)aseek.value=Math.round(aud.currentTime/aud.duration*1000);
+ atime.textContent=fmt(aud.currentTime)+' / '+fmt(aud.duration);
+ var now=Date.now();
+ if(now-aSaveAt>3000){aSaveAt=now;try{LS.setItem('cb-aud',JSON.stringify({l:aLang,i:aIdx,t:aud.currentTime}))}catch(e){}}
+});
+aud.addEventListener('play',function(){aplay.textContent='\u275a\u275a'});
+aud.addEventListener('pause',function(){aplay.textContent='\u25b6'});
+aud.addEventListener('ended',function(){
+ if(aIdx<chLinks().length-1)audStep(1);else aplay.textContent='\u25b6';
+});
+aud.addEventListener('error',function(){atitle.textContent=chLabel(aIdx)+' \u00b7 '+(aLang==='zh'?'\u97f3\u9891\u6682\u7f3a':'audio unavailable')});
+aseek.addEventListener('input',function(){aSeeking=true;if(aud.duration)atime.textContent=fmt(aseek.value/1000*aud.duration)+' / '+fmt(aud.duration)});
+aseek.addEventListener('change',function(){if(aud.duration)aud.currentTime=aseek.value/1000*aud.duration;aSeeking=false});
+aplay.onclick=function(){if(aud.paused){var p=aud.play();if(p&&p.catch)p.catch(function(){})}else aud.pause()};
+document.getElementById('aprev').onclick=function(){audStep(-1)};
+document.getElementById('anext').onclick=function(){audStep(1)};
+document.getElementById('aback').onclick=function(){aud.currentTime=Math.max(0,aud.currentTime-15)};
+document.getElementById('afwd').onclick=function(){aud.currentTime=aud.currentTime+15};
+aspeed.onclick=function(){
+ var k=(SPEEDS.indexOf(aSpd)+1)%SPEEDS.length;aSpd=SPEEDS[k];aud.playbackRate=aSpd;
+ aspeed.textContent=aSpd+'\u00d7';try{LS.setItem('cb-aspd',aSpd)}catch(e){}
+};
+function audToggle(on){
+ audOn=on;
+ withRepagination(function(){H.classList.toggle('aud-on',on)});
+ if(on){
+  var i=curChapterIdx(),sv=null;
+  try{sv=JSON.parse(LS.getItem('cb-aud'))}catch(e){}
+  if(!aud.getAttribute('src')||aIdx!==i||aLang!==H.dataset.lang){
+   loadTrack(i,(sv&&sv.i===i&&sv.l===H.dataset.lang)?{t:sv.t}:null,false);
+  }
+ }else aud.pause();
+}
+document.getElementById('aud-btn').onclick=function(){audToggle(!audOn)};
+document.getElementById('aclose').onclick=function(){audToggle(false)};
+function audLangChanged(){
+ if(!audOn)return;
+ var r=aud.duration?aud.currentTime/aud.duration:0,was=!aud.paused;
+ loadTrack(aIdx,{r:r},was);
+}
+
 paginateInit();
 </script></body></html>
